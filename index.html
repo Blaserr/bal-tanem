@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bal tanem için 🥺</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffc0cb, #ffe4e1);
+      overflow-y: auto;
+    }
+
+    .container {
+      text-align: center;
+      padding: 80px 20px;
+      color: #fff;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 2px 2px #ff69b4;
+      margin-bottom: 30px;
+    }
+
+    .message {
+      font-size: 1.3em;
+      max-width: 700px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+      color: #fff;
+    }
+
+    .surprise-btn {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 1em;
+      border: none;
+      border-radius: 30px;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+    }
+
+    .surprise-btn:hover {
+      background-color: #ff1493;
+    }
+
+    .surprise-text {
+      margin-top: 30px;
+      display: none;
+      font-size: 1.2em;
+      color: #fff;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    /* Hearts */
+    .heart {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      background-color: #ff69b4;
+      transform: rotate(45deg);
+      animation: float 10s linear infinite;
+      opacity: 0.6;
+    }
+
+    .heart:before,
+    .heart:after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      background-color: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .heart:before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart:after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 1;
+      }
+    }
+
+    /* Hello Kitty & Panda */
+    .kitty {
+      position: fixed;
+      bottom: 0;
+      left: 20px;
+      width: 80px;
+      z-index: 1;
+    }
+
+    .panda {
+      position: fixed;
+      bottom: 0;
+      right: 20px;
+      width: 80px;
+      z-index: 1;
+    }
+
+    /* Fotoğraf Galerisi */
+    .photo-gallery {
+      text-align: center;
+      margin: 50px 0;
+    }
+
+    .photo-gallery h2 {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 28px;
+      color: #ff69b4;
+      margin-bottom: 20px;
+    }
+
+    .photo-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .photo-container img {
+      width: 250px;
+      height: auto;
+      border: 4px solid #ffb6c1;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .photo-container img:hover {
+      transform: scale(1.05);
+    }
+
+    audio {
+      display: none;
+    }
+
+    /* Şifre Ekranı */
+    #passwordScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 192, 203, 0.95);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #passwordScreen div {
+      background: #fff0f6;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #ffb6c1;
+      text-align: center;
+    }
+
+    #passwordScreen h2 {
+      color: #ff69b4;
+      font-family: 'Pacifico', cursive;
+      margin-bottom: 20px;
+    }
+
+    #passwordScreen input {
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid #ffb6c1;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      outline: none;
+    }
+
+    #passwordScreen button {
+      padding: 10px 30px;
+      border: none;
+      border-radius: 15px;
+      background: #ff69b4;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    #passwordScreen #pwError {
+      color: #ff1493;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Şifre ekranı -->
+  <div id="passwordScreen" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,192,203,0.95);z-index:2000;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="background:#fff0f6;padding:40px 30px;border-radius:20px;box-shadow:0 0 20px #ffb6c1;text-align:center;">
+      <h2 style="color:#ff69b4;font-family:'Pacifico',cursive;margin-bottom:20px;">Şifre Gerekli</h2>
+      <input id="pwInput" type="password" placeholder="Şifre" style="padding:10px 18px;border-radius:10px;border:1px solid #ffb6c1;font-size:1.1em;margin-bottom:15px;outline:none;">
+      <br>
+      <button onclick="checkPassword()" style="padding:10px 30px;border:none;border-radius:15px;background:#ff69b4;color:#fff;font-size:1em;cursor:pointer;">Giriş</button>
+      <div id="pwError" style="color:#ff1493;margin-top:10px;display:none;">Şifre yanlış!</div>
+    </div>
+  </div>
+
+  <!-- Ana içerik -->
+  <div id="mainContent" style="display:none">
+    <div class="container">
+      <h1>Bal tanem için 🥺</h1>
+      <p class="message">
+        Ne olursa olsun, ettiğimiz her kavgada senden asla vazgeçmeyip her seferinde daha çok seveceğim.  
+        Bunu ne zaman okursan oku, bil ki o an bile içim seni düşünmekle meşgul olacak.  
+        Senin gülüşün bu kalbin melodisi gibi... ve sen, hayatımın en tatlı Hello Kitty’si,  
+        en sarılası pandasısın. 💗
+      </p>
+      <button class="surprise-btn" onclick="showSurprise()">💌 Bir şey daha var...</button>
+      <p class="surprise-text" id="extraMessage">
+        Sadece bir sevgili değil, aynı zamanda en iyi arkadaşım, huzurum, evim oldun.  
+        Sonsuza dek seninim. 
+      </p>
+    </div>
+
+    <!-- Hello Kitty & Panda -->
+    <img src="https://pngimg.com/d/hello_kitty_PNG22.png" class="kitty" alt="Hello Kitty">
+    <img src="https://png.pngtree.com/png-vector/20220807/ourmid/pngtree-cartoon-panda-sleep-png-image_6102474.png" class="panda" alt="Panda">
+
+    <section id="our-photos" class="photo-gallery">
+      <h2>Yan yana çekebilmek dileğiyle 💖</h2>
+      <div class="photo-container">
+        <img src="images/photo1.jpeg" alt="Birlikte fotoğraf 1">
+        <img src="images/photo2.png" alt="Birlikte fotoğraf 2">
+        <img src="images/photo3.jpeg" alt="Birlikte fotoğraf 3">
+      </div>
+    </section>
+
+    <!-- Arka Plan Kalpler, Müzik ve Ses Butonu -->
+    <audio id="bgMusic" autoplay loop muted>
+      <source src="images/gozlerinden-gokyuzune.mp3" type="audio/mpeg">
+      Tarayıcınız audio elementini desteklemiyor.
+    </audio>
+    <button id="muteBtn" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;padding:10px 24px;border:none;border-radius:20px;background:#ff69b4;color:#fff;font-size:1em;box-shadow:0 0 10px #ffb6c1;cursor:pointer;">
+      🔇 Sesi Aç
+    </button>
+    <script>
+      // Kalp animasyonu
+      for (let i = 0; i < 50; i++) {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+        document.body.appendChild(heart);
+      }
+
+      // Sürpriz mesajı göster
+      function showSurprise() {
+        document.getElementById("extraMessage").style.display = "block";
+      }
+
+      // Ses aç/kapat butonu
+      window.addEventListener('DOMContentLoaded', function() {
+        var audio = document.getElementById('bgMusic');
+        var muteBtn = document.getElementById('muteBtn');
+        function updateMuteBtn() {
+          muteBtn.textContent = audio.muted ? '🔇 Sesi Aç' : '🔊 Sesi Kapat';
+        }
+        muteBtn.addEventListener('click', function() {
+          audio.muted = !audio.muted;
+          if (!audio.muted) audio.play().catch(()=>{});
+          updateMuteBtn();
+        });
+        updateMuteBtn();
+      });
+    </script>
+
+    <!-- Chat ve Notlar Bölümü -->
+    <section id="chat-section" style="max-width:600px;margin:60px auto 0;background:rgba(255,255,255,0.15);border-radius:18px;padding:24px;box-shadow:0 0 10px #ffb6c1;">
+      <h2 style="color:#ff69b4;font-family:'Pacifico',cursive;margin-bottom:10px;">Sohbet & Notlar 💬</h2>
+      <div id="github-login" style="margin-bottom:15px;">
+        <input id="githubUser" type="text" placeholder="Kullanıcı adınız" style="padding:8px 14px;border-radius:8px;border:1px solid #ffb6c1;font-size:1em;">
+        <!-- Avatar seçici -->
+        <select id="avatar-picker" style="padding:8px 10px;border-radius:8px;border:1px solid #ffb6c1;font-size:1em;">
+          <option value="kitty">Hello Kitty</option>
+          <option value="panda">Panda</option>
+          <option value="vs">Panda VS Kitty</option>
+          <option value="🐼">🐼 Panda Emoji</option>
+          <option value="😺">😺 Kedi Emoji</option>
+          <option value="🦄">🦄 Unicorn</option>
+          <option value="🐻">🐻 Ayı</option>
+          <option value="🐧">🐧 Penguen</option>
+          <option value="🐶">🐶 Köpek</option>
+          <option value="🦊">🦊 Tilki</option>
+          <option value="🐰">🐰 Tavşan</option>
+          <option value="🦁">🦁 Aslan</option>
+          <option value="🐸">🐸 Kurbağa</option>
+          <option value="🐥">🐥 Civciv</option>
+          <option value="🐙">🐙 Ahtapot</option>
+          <option value="🐲">🐲 Ejderha</option>
+          <option value="🦋">🦋 Kelebek</option>
+          <option value="🦖">🦖 Dinozor</option>
+          <option value="🧸">🧸 Ayıcık</option>
+          <option value="💖">💖 Kalp</option>
+          <option value="⭐">⭐ Yıldız</option>
+          <option value="🌈">🌈 Gökkuşağı</option>
+          <option value="👑">👑 Taç</option>
+          <option value="😎">😎 Cool</option>
+          <option value="😇">😇 Melek</option>
+          <option value="😍">😍 Kalpli Göz</option>
+          <option value="🥰">🥰 Aşık</option>
+          <option value="😂">😂 Gülme</option>
+          <option value="😡">😡 Sinirli</option>
+          <option value="😭">😭 Ağlayan</option>
+          <option value="❤️">❤️ Kırmızı Kalp</option>
+          <option value="👍">👍 Like</option>
+        </select>
+        <!-- Renk kodu seçici (isim rengi için) -->
+        <input id="color-picker" type="color" value="#ff69b4" style="width:40px;height:40px;border:none;margin-left:8px;vertical-align:middle;" title="Kullanıcı adı rengi">
+        <!-- Sohbet arka planı seçici -->
+        <select id="chat-bg-picker" style="padding:8px 10px;border-radius:8px;border:1px solid #ffb6c1;font-size:1em;margin-left:8px;">
+          <option value="#fff0f6">Pembe</option>
+          <option value="#f0fff6">Açık Yeşil</option>
+          <option value="#f0f8ff">Açık Mavi</option>
+          <option value="#fffbe0">Sarımsı</option>
+          <option value="#ffffff">Beyaz</option>
+        </select>
+        <button onclick="loginGithubUser()" style="padding:8px 18px;border:none;border-radius:10px;background:#ff69b4;color:#fff;font-size:1em;cursor:pointer;">Giriş</button>
+      </div>
+      <div id="chat-area" style="display:none;">
+        <div id="chat-messages" style="height:180px;overflow-y:auto;background:#fff0f6;border-radius:10px;padding:10px 8px;margin-bottom:10px;font-size:1em;color:#444;border:1px solid #ffb6c1;"></div>
+        <input id="chat-input" type="text" placeholder="Mesajınızı yazın..." style="width:60%;padding:7px 12px;border-radius:8px;border:1px solid #ffb6c1;">
+        <!-- Emoji seçici -->
+        <select id="emoji-picker" style="padding:7px 10px;border-radius:8px;border:1px solid #ffb6c1;">
+          <option value="">😊</option>
+          <option value="😍">😍</option>
+          <option value="🥰">🥰</option>
+          <option value="😂">😂</option>
+          <option value="😭">😭</option>
+          <option value="😎">😎</option>
+          <option value="😇">😇</option>
+          <option value="😡">😡</option>
+          <option value="❤️">❤️</option>
+          <option value="👍">👍</option>
+        </select>
+        <button onclick="sendMessage()" style="padding:7px 18px;border:none;border-radius:10px;background:#ff69b4;color:#fff;font-size:1em;cursor:pointer;">Gönder</button>
+        <button onclick="clearChat()" style="margin-top:10px;padding:7px 18px;border:none;border-radius:10px;background:#ffb6c1;color:#fff;font-size:1em;cursor:pointer;">Chat Temizle</button>
+        <hr style="margin:18px 0;">
+        <textarea id="note-input" placeholder="Not bırakın (herkes görebilir)" style="width:100%;height:60px;border-radius:8px;border:1px solid #ffb6c1;padding:8px;font-size:1em;"></textarea>
+        <button onclick="saveNote()" style="margin-top:6px;padding:7px 18px;border:none;border-radius:10px;background:#ff69b4;color:#fff;font-size:1em;cursor:pointer;">Notu Kaydet</button>
+        <button onclick="clearNotes()" style="margin-top:10px;padding:7px 18px;border:none;border-radius:10px;background:#ffb6c1;color:#fff;font-size:1em;cursor:pointer;">Notları Temizle</button>
+        <div id="notes-list" style="margin-top:18px;"></div>
+        <button onclick="logoutUser()" style="margin-top:10px;padding:7px 18px;border:none;border-radius:10px;background:#ffe4e1;color:#ff69b4;font-size:1em;cursor:pointer;float:right;">Çıkış Yap</button>
+        <!-- Admin Panel Açma -->
+        <button onclick="openAdminPanelPrompt()" style="margin-top:10px;padding:7px 18px;border:none;border-radius:10px;background:#fffbe0;color:#ff69b4;font-size:1em;cursor:pointer;float:left;">Admin Panel</button>
+        <div style="clear:both"></div>
+        <!-- Admin Panel -->
+        <div id="admin-panel" style="display:none;margin-top:30px;background:#fff8fa;border-radius:12px;padding:18px;box-shadow:0 0 8px #ffb6c1;">
+          <h3 style="color:#ff69b4;margin-bottom:10px;">Kayıtlı Kullanıcılar</h3>
+          <div id="user-list" style="font-size:1em;"></div>
+          <div id="edit-user-panel" style="display:none;margin-top:18px;padding:12px;background:#fffbe0;border-radius:10px;">
+            <h4 style="color:#ff69b4;">Kullanıcıyı Düzenle</h4>
+            <label>Kullanıcı Adı: <input id="edit-username" type="text" style="padding:4px 8px;border-radius:6px;border:1px solid #ffb6c1;" readonly></label><br>
+            <label>Avatar: 
+              <select id="edit-avatar" style="padding:4px 8px;border-radius:6px;border:1px solid #ffb6c1;">
+                <option value="kitty">Hello Kitty</option>
+                <option value="panda">Panda</option>
+                <option value="vs">Panda VS Kitty</option>
+                <option value="🐼">🐼 Panda Emoji</option>
+                <option value="😺">😺 Kedi Emoji</option>
+                <option value="🦄">🦄 Unicorn</option>
+                <option value="🐻">🐻 Ayı</option>
+                <option value="🐧">🐧 Penguen</option>
+                <option value="🐶">🐶 Köpek</option>
+                <option value="🦊">🦊 Tilki</option>
+                <option value="🐰">🐰 Tavşan</option>
+                <option value="🦁">🦁 Aslan</option>
+                <option value="🐸">🐸 Kurbağa</option>
+                <option value="🐥">🐥 Civciv</option>
+                <option value="🐙">🐙 Ahtapot</option>
+                <option value="🐲">🐲 Ejderha</option>
+                <option value="🦋">🦋 Kelebek</option>
+                <option value="🦖">🦖 Dinozor</option>
+                <option value="🧸">🧸 Ayıcık</option>
+                <option value="💖">💖 Kalp</option>
+                <option value="⭐">⭐ Yıldız</option>
+                <option value="🌈">🌈 Gökkuşağı</option>
+                <option value="👑">👑 Taç</option>
+                <option value="😎">😎 Cool</option>
+                <option value="😇">😇 Melek</option>
+                <option value="😍">😍 Kalpli Göz</option>
+                <option value="🥰">🥰 Aşık</option>
+                <option value="😂">😂 Gülme</option>
+                <option value="😡">😡 Sinirli</option>
+                <option value="😭">😭 Ağlayan</option>
+                <option value="❤️">❤️ Kırmızı Kalp</option>
+                <option value="👍">👍 Like</option>
+              </select>
+            </label><br>
+            <label>Renk: <input id="edit-color" type="color" style="width:40px;height:28px;border:none;"></label><br>
+            <button onclick="saveUserEdit()" style="margin-top:8px;padding:5px 16px;border:none;border-radius:8px;background:#ff69b4;color:#fff;cursor:pointer;">Kaydet</button>
+            <button onclick="closeEditUserPanel()" style="margin-top:8px;padding:5px 16px;border:none;border-radius:8px;background:#ffe4e1;color:#ff69b4;cursor:pointer;">İptal</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    let githubUser = '';
+    let userAvatar = 'kitty';
+    let userColor = '#ff69b4';
+    let chatBgColor = '#fff0f6';
+    // Şifre kontrolü
+    function checkPassword() {
+      var pw = document.getElementById('pwInput').value;
+      if (pw === '130924') {
+        document.getElementById('passwordScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = '';
+      } else {
+        document.getElementById('pwError').style.display = 'block';
+      }
+    }
+    // Enter tuşu ile giriş
+    document.getElementById('pwInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+    // Sayfa yüklendiğinde inputa odaklan
+    window.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('pwInput').focus();
+    });
+
+    // Firebase yapılandırması
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHSrNsgkixZ4OcjEStfPQYo8zwLL48uq8",
+      authDomain: "bal-tanem.firebaseapp.com",
+      databaseURL: "https://bal-tanem-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "bal-tanem",
+      storageBucket: "bal-tanem.appspot.com",
+      messagingSenderId: "1015101283099",
+      appId: "1:1015101283099:web:d021661a449cc1408f91be",
+      measurementId: "G-184L9GHR4V"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Chat mesajı gönder (avatar ve renk ile)
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const emoji = document.getElementById('emoji-picker').value;
+      let msg = input.value.trim();
+      if (emoji) msg += " " + emoji;
+      if (!githubUser) {
+        alert("Lütfen önce Github kullanıcı adınızı girin!");
+        return;
+      }
+      if (!msg.trim()) return;
+      // Kullanıcının profilini kaydet
+      db.ref('userProfiles/' + githubUser).set({
+        avatar: userAvatar,
+        color: userColor
+      });
+      db.ref('chatMessages').push({
+        user: githubUser,
+        avatar: userAvatar,
+        color: userColor,
+        text: msg,
+        time: new Date().toLocaleTimeString(),
+        timestamp: Date.now()
+      });
+      input.value = '';
+      document.getElementById('emoji-picker').selectedIndex = 0;
+    }
+
+    // Avatar görseli döndür
+    function getAvatarImg(avatar) {
+      if (avatar === 'panda')
+        return '<img src="https://png.pngtree.com/png-vector/20220807/ourmid/pngtree-cartoon-panda-sleep-png-image_6102474.png" alt="Panda" style="width:28px;vertical-align:middle;border-radius:50%;margin-right:4px;">';
+      if (avatar === 'kitty')
+        return '<img src="https://pngimg.com/d/hello_kitty_PNG22.png" alt="Kitty" style="width:28px;vertical-align:middle;border-radius:50%;margin-right:4px;">';
+      if (avatar === 'vs')
+        return '<img src="https://pngimg.com/d/hello_kitty_PNG22.png" alt="Kitty" style="width:18px;vertical-align:middle;border-radius:50%;margin-right:0px;"><img src="https://png.pngtree.com/png-vector/20220807/ourmid/pngtree-cartoon-panda-sleep-png-image_6102474.png" alt="Panda" style="width:18px;vertical-align:middle;border-radius:50%;margin-left:0px;">';
+      // Emoji avatarlar için
+      const emojiList = [
+        "🐼","😺","🦄","🐻","🐧","🐶","🦊","🐰","🦁","🐸","🐥","🐙","🐲","🦋","🦖","🧸","💖","⭐","🌈","👑","😎","😇","😍","🥰","😂","😡","😭","❤️","👍"
+      ];
+      if (emojiList.includes(avatar)) {
+        return `<span style="font-size:1.7em;vertical-align:middle;margin-right:4px;">${avatar}</span>`;
+      }
+      // default: kitty
+      return '<img src="https://pngimg.com/d/hello_kitty_PNG22.png" alt="Kitty" style="width:28px;vertical-align:middle;border-radius:50%;margin-right:4px;">';
+    }
+
+    // Chat mesajlarını dinle ve ekrana yaz (avatar ve renk ile)
+    function loadMessages() {
+      db.ref('chatMessages').on('value', snapshot => {
+        const chatDiv = document.getElementById('chat-messages');
+        const messages = snapshot.val() || {};
+        const arr = Object.values(messages).sort((a, b) => a.timestamp - b.timestamp);
+        if (arr.length === 0) {
+          chatDiv.innerHTML = "<i style='color:#aaa'>Henüz mesaj yok.</i>";
+        } else {
+          chatDiv.innerHTML = arr.map((m, i) =>
+            `${getAvatarImg(m.avatar)}<b style="color:${m.color || '#ff69b4'}">${m.user}</b>: ${m.text} <span style="font-size:0.85em;color:#aaa;">${m.time}</span>
+            <button onclick="toggleHeart(${i})" style="background:none;border:none;cursor:pointer;font-size:1.2em;">🤍</button>
+            <span id="heart-${i}" style="font-size:1.2em;vertical-align:middle;"></span>`
+          ).join('<br>');
+        }
+        chatDiv.scrollTop = chatDiv.scrollHeight;
+      });
+    }
+
+    // Not bırakma
+    function saveNote() {
+      const note = document.getElementById('note-input').value.trim();
+      if (!githubUser) {
+        alert("Lütfen önce Github kullanıcı adınızı girin!");
+        return;
+      }
+      if (!note) return;
+      db.ref('chatNotes').push({
+        user: githubUser,
+        note,
+        time: new Date().toLocaleString(),
+        timestamp: Date.now()
+      });
+      document.getElementById('note-input').value = '';
+    }
+
+    // Notları dinle ve ekrana yaz
+    function loadNotes() {
+      db.ref('chatNotes').on('value', snapshot => {
+        const notesDiv = document.getElementById('notes-list');
+        const notes = snapshot.val() || {};
+        const arr = Object.values(notes).sort((a, b) => a.timestamp - b.timestamp);
+        if (arr.length === 0) {
+          notesDiv.innerHTML = "<i style='color:#aaa'>Henüz not yok.</i>";
+        } else {
+          notesDiv.innerHTML = arr.map(n =>
+            `<div style="background:#fff8fa;border-radius:8px;padding:7px 10px;margin-bottom:7px;"><b style="color:#ff69b4">${n.user}</b>: ${n.note} <span style="font-size:0.85em;color:#aaa;">${n.time}</span></div>`
+          ).join('');
+        }
+      });
+    }
+
+    // Chat ve notları temizle
+    function clearChat() {
+      if (confirm("Tüm chat mesajlarını silmek istediğine emin misin?")) {
+        db.ref('chatMessages').remove();
+        document.getElementById('chat-messages').innerHTML = "<i style='color:#aaa'>Henüz mesaj yok.</i>";
+      }
+    }
+    function clearNotes() {
+      if (confirm("Tüm notları silmek istediğine emin misin?")) {
+        db.ref('chatNotes').remove();
+        document.getElementById('notes-list').innerHTML = "<i style='color:#aaa'>Henüz not yok.</i>";
+      }
+    }
+
+    // Çıkış yap fonksiyonu
+    function logoutUser() {
+      githubUser = '';
+      userAvatar = 'kitty';
+      userColor = '#ff69b4';
+      chatBgColor = '#fff0f6';
+      localStorage.removeItem('chatGithubUser');
+      document.getElementById('chat-area').style.display = 'none';
+      document.getElementById('github-login').style.display = '';
+      // Alanları sıfırla
+      document.getElementById('githubUser').value = '';
+      document.getElementById('avatar-picker').value = 'kitty';
+      document.getElementById('color-picker').value = '#ff69b4';
+      document.getElementById('chat-bg-picker').value = '#fff0f6';
+    }
+
+    // Girişten sonra yükle ve input'a odaklan
+    function loginGithubUser() {
+      const user = document.getElementById('githubUser').value.trim();
+      const avatar = document.getElementById('avatar-picker').value;
+      const color = document.getElementById('color-picker').value;
+      const bg = document.getElementById('chat-bg-picker').value;
+      if (!user) return;
+      // Kullanıcı adı kontrolü ve profil yükleme
+      db.ref('userProfiles/' + user).once('value').then(snapshot => {
+        const profile = snapshot.val();
+        if (profile) {
+          githubUser = user;
+          userAvatar = profile.avatar || 'kitty';
+          userColor = profile.color || '#ff69b4';
+          chatBgColor = bg;
+          document.getElementById('avatar-picker').value = userAvatar;
+          document.getElementById('color-picker').value = userColor;
+        } else {
+          githubUser = user;
+          userAvatar = avatar;
+          userColor = color;
+          chatBgColor = bg;
+          db.ref('userProfiles/' + githubUser).set({
+            avatar: userAvatar,
+            color: userColor
+          });
+        }
+        document.getElementById('github-login').style.display = 'none';
+        document.getElementById('chat-area').style.display = '';
+        document.getElementById('chat-input').focus();
+        document.getElementById('chat-messages').style.background = chatBgColor;
+        loadMessages();
+        loadNotes();
+        localStorage.setItem('chatGithubUser', githubUser);
+      });
+    }
+
+    // Sayfa açıldığında kullanıcı adı ve profilini otomatik doldur
+    window.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('pwInput').focus();
+      const savedUser = localStorage.getItem('chatGithubUser');
+      if (savedUser) {
+        db.ref('userProfiles/' + savedUser).once('value').then(snapshot => {
+          const profile = snapshot.val();
+          if (profile) {
+            document.getElementById('githubUser').value = savedUser;
+            document.getElementById('avatar-picker').value = profile.avatar || 'kitty';
+            document.getElementById('color-picker').value = profile.color || '#ff69b4';
+          }
+        });
+      }
+    });
+
+    // Sohbet arka planı değiştirici (girişten sonra da çalışsın)
+    document.getElementById('chat-bg-picker').addEventListener('change', function() {
+      chatBgColor = this.value;
+      if (document.getElementById('chat-messages')) {
+        document.getElementById('chat-messages').style.background = chatBgColor;
+      }
+    });
+
+    // Chat input için Enter ile gönderme
+    document.getElementById('chat-input')?.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    // Admin panel şifreli açma
+    function openAdminPanelPrompt() {
+      // Her açılışta şifre sorulsun
+      const pw = prompt("Admin panel şifresi?");
+      if (pw === "1844") {
+        toggleAdminPanel();
+      } else if (pw !== null) {
+        alert("Hatalı şifre!");
+      }
+    }
+
+    // Admin panel aç/kapat
+    function toggleAdminPanel() {
+      const panel = document.getElementById('admin-panel');
+      if (panel.style.display === 'none') {
+        panel.style.display = '';
+        loadUserList();
+      } else {
+        panel.style.display = 'none';
+        closeEditUserPanel();
+      }
+    }
+
+    // Kayıtlı kullanıcıları yükle ve göster
+    function loadUserList() {
+      db.ref('userProfiles').once('value').then(snapshot => {
+        const users = snapshot.val() || {};
+        const userListDiv = document.getElementById('user-list');
+        if (Object.keys(users).length === 0) {
+          userListDiv.innerHTML = "<i style='color:#aaa'>Kayıtlı kullanıcı yok.</i>";
+        } else {
+          userListDiv.innerHTML = Object.entries(users).map(([uname, profile]) =>
+            `<div style="margin-bottom:8px;">
+              <span style="font-weight:bold;color:${profile.color || '#ff69b4'}">${uname}</span>
+              <span style="margin-left:8px;">${getAvatarImg(profile.avatar)}</span>
+              <span style="margin-left:8px;color:#888;">Renk: <span style="display:inline-block;width:18px;height:18px;background:${profile.color};border-radius:4px;border:1px solid #ccc;vertical-align:middle;"></span></span>
+              <button onclick="editUser('${uname}')" style="margin-left:8px;padding:3px 10px;border:none;border-radius:7px;background:#ffe4e1;color:#ff69b4;cursor:pointer;">Düzenle</button>
+              <button onclick="deleteUser('${uname}')" style="margin-left:4px;padding:3px 10px;border:none;border-radius:7px;background:#ffb6c1;color:#fff;cursor:pointer;">Sil</button>
+            </div>`
+          ).join('');
+        }
+      });
+    }
+
+    // Kullanıcı düzenleme panelini aç
+    function editUser(username) {
+      db.ref('userProfiles/' + username).once('value').then(snapshot => {
+        const profile = snapshot.val();
+        if (!profile) return;
+        document.getElementById('edit-user-panel').style.display = '';
+        document.getElementById('edit-username').value = username;
+        document.getElementById('edit-avatar').value = profile.avatar || 'kitty';
+        document.getElementById('edit-color').value = profile.color || '#ff69b4';
+      });
+    }
+
+    // Kullanıcı düzenleme panelini kapat
+    function closeEditUserPanel() {
+      document.getElementById('edit-user-panel').style.display = 'none';
+    }
+
+    // Kullanıcı düzenlemesini kaydet
+    function saveUserEdit() {
+      const username = document.getElementById('edit-username').value;
+      const avatar = document.getElementById('edit-avatar').value;
+      const color = document.getElementById('edit-color').value;
+      db.ref('userProfiles/' + username).update({
+        avatar: avatar,
+        color: color
+      }).then(() => {
+        closeEditUserPanel();
+        loadUserList();
+        // Eğer düzenlenen kullanıcı giriş yapmışsa, kendi profilini de güncelle
+        if (githubUser === username) {
+          userAvatar = avatar;
+          userColor = color;
+          document.getElementById('avatar-picker').value = avatar;
+          document.getElementById('color-picker').value = color;
+        }
+      });
+    }
+
+    // Kullanıcı silme fonksiyonu
+    function deleteUser(username) {
+      if (!confirm(username + " adlı kullanıcıyı silmek istediğinize emin misiniz?")) return;
+      db.ref('userProfiles/' + username).remove().then(() => {
+        // Kullanıcının chat mesajlarını da silmek isterseniz aşağıdaki satırı açabilirsiniz:
+        // db.ref('chatMessages').orderByChild('user').equalTo(username).once('value', snap => { snap.forEach(child => child.ref.remove()); });
+        loadUserList();
+        // Eğer silinen kullanıcı giriş yapmışsa çıkış yap
+        if (githubUser === username) logoutUser();
+      });
+    }
+  </script>
+</body>
+</html>
